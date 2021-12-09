@@ -1,4 +1,6 @@
+import os
 from flask import Flask, json
+from dotenv import load_dotenv
 from flask_pymongo import PyMongo
 from bson.json_util import dumps
 from bson.objectid import ObjectId
@@ -6,11 +8,12 @@ from bson.objectid import ObjectId
 from flask import jsonify, request
 from werkzeug.security import generate_password_hash, check_password_hash
 
+load_dotenv() 
+
 app = Flask(__name__)
 app.secret_key = "secret_key"
-app.config["MONGO_URI"] = "mongodb+srv://michaelaries:6gf3WE8kRkpUGeh@cluster0.j1cpf.mongodb.net/CADISE?retryWrites=true&w=majority"
+app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 mongo  = PyMongo(app)
-
 
 @app.route('/search', methods=['GET'])
 def query_resource():
