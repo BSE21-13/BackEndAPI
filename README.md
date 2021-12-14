@@ -16,10 +16,10 @@ Getting Started
 
 2. Activate the virtual environment:
 
-<!-- For Windows -->
+        a) For Windows
         $ ./.venv/Scripts/activate
 
-<!-- For Linux -->
+        b) For Linux
         $ source ./.venv/Scripts/activate
 
 3. Install Python dependencies for the project:
