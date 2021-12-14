@@ -8,7 +8,6 @@ from flask import jsonify, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS, cross_origin
 
-
 load_dotenv() 
 
 app = Flask(__name__)

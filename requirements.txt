@@ -4,3 +4,4 @@ Flask_PyMongo==2.3.0
 pymongo==4.0.1
 python-dotenv==0.19.2
 Werkzeug==2.0.2
+dnspython==2.1.0
