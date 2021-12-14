@@ -5,7 +5,6 @@ What's Here
 * README.md - this file
 * requirements.txt - this file is used install Python dependencies needed by the API
 * /resources  - this folder contains the resources to be indexed.
-* runner.py - file that's used to run the api on the Amazon EC2 instance 
 
 Getting Started
 ---------------
