@@ -25,6 +25,8 @@ Getting Started
 
         $ pip install -r requirements.txt
 
+        $ python -m spacy download en_core_web_md
+
 4. Install the Application Code into your virtual environment:
 
         $ python setup.py install
