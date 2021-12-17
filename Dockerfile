@@ -3,15 +3,6 @@ FROM python:3.8-slim-buster
 
 WORKDIR /app
 
-# installing virtualenv
-RUN python3 install virtualenv
-
-# creating a virtual environment for the project
-RUN virtualenv .venv
-
-# activating the virtual environment
-RUN . ./.venv/bin/Activate
-
 COPY requirements.txt requirements.txt
 
 # installing dependencies for the project
