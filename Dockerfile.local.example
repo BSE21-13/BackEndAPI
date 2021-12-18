@@ -2,7 +2,7 @@ FROM mwanjemike767/debian-x-python:1.0.0
 
 WORKDIR /app
 
-ENV MONGO_URI=""
+ENV MONGO_URI="Enter MONGO_URI here"
 
 COPY requirements.txt requirements.txt
 RUN apt-get update
