@@ -2,6 +2,8 @@ FROM mwanjemike767/debian-x-python:1.0.0
 
 WORKDIR /app
 
+ENV MONGO_URI="Enter MONGO_URI here"
+
 COPY requirements.txt requirements.txt
 RUN apt-get update
 RUN apt-get install enchant-2 -y
