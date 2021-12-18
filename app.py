@@ -15,8 +15,8 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-app.secret_key = "secret_key"
-app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+app.secret_key = 'secret_key'
+app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 mongo  = PyMongo(app)
 
 @app.route('/search', methods=['GET'])
