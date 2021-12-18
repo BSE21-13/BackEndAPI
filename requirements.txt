@@ -5,3 +5,6 @@ pymongo==4.0.1
 pymongo[srv]
 python-dotenv==0.19.2
 Werkzeug==2.0.2
+dnspython==2.1.0
+spacy==3.2.1
+pyenchant==3.2.2
