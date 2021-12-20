@@ -1,6 +1,5 @@
 import re
 import os
-# import PyPDF2
 import enchant
 import spacy
 from flask import Flask, json
@@ -32,7 +31,7 @@ def readTextFile(filename, folder_name):
 
     file = open(data_path + "\\" + filename, mode="rb")
     text = file.read()
-    text = text.decode("ansi")
+    text = text.decode("utf-8")
     #txt = text.replace("\n", " ")
         
     # creating a single string containing full text
@@ -145,9 +144,10 @@ def getTitle(titles, sent_start):
     return req_title
             
 # Importing resource for indexing
-pdffile = readTextFile('PlainConstitution.txt', './resources/')
+pdffile = readTextFile('PlainConstitution0.txt', './resources/')
 pdffile = pdffile.lower()
-# print(pdffile)
+# test
+print(pdffile)
 
 doc = getSpacyDocument(pdffile, nlp)
 
@@ -169,53 +169,64 @@ for match in re.finditer(pattern, r_doc.text):
    
     if span is not None:
         mwt_ents.append((span.start, span.end, span.text))
-print(mwt_ents)
 # for ent in mwt_ents:
 #     start , end , name = ent
 
-keywords = 'president'
-similar_keywords = getSimilarWords(keywords, nlp)
-similar_keywords = similar_keywords.split(", ")
-print( similar_keywords)
 
-results = []
-positions = []
-
-# for word in similar_keywords:
-#     print(word)
-#     result = search_for_keyword(word, doc, nlp)
-#     results += result["matched_text"]
-#     positions += result["start_positions"]
-
-result = search_for_keyword('president, vice, delegate', doc, nlp)
-
-print(f'Total results are {len(result)}')
-
-title_list = []
-for item in positions:
-    title_list.append(getTitle(mwt_ents,item))
-
-for item in result:
-    print('*****')
-    print(item)
-    print('***** \n')
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.secret_key = "secret_key"
-app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+app.config["MONGO_URI"] = "mongodb+srv://serverCredentials:DYJsO4fsFUzpwpKi@linkbus.dp8pg.gcp.mongodb.net/LinkBus?authSource=admin&replicaSet=atlas-e671n0-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true"
 mongo  = PyMongo(app)
     
 @app.route('/search', methods=['GET'])
 @cross_origin()
 def query_resource():
+
+    # Extract search query String
     queryString = request.args.get('q')
+    # keywords = 'president'
+    similar_keywords = getSimilarWords(queryString, nlp)
+    similar_keywords = similar_keywords.split(", ")
+    # print( similar_keywords)
+
+    searchResults = []
+    positions = []
+
+    for word in similar_keywords:
+        result = search_for_keyword(word, doc, nlp)
+        searchResults += result["matched_text"]
+        positions += result["start_positions"]
+
+    # searchResult = search_for_keyword('president, vice, delegate', doc, nlp)
+
+    # print(f'Total results are {len(searchResult)}')
+
+    title_list = []
+    for item in positions:
+        title_list.append(getTitle(mwt_ents,item))
+
+    finalResults = {}
+
+    for item in range(0, len(searchResults)+1):
+        finalResults = {
+
+        }
+
+
+ 
+    
+    
+
     results = {
-        "keywords":[title_list, "law", "state", "prosecution", "police", "unfair", "appeal"], 
+        "keywords": similar_keywords, 
         
-    "results" : [{
+    "results" : 
+    [
+        {
         
         "chapter":"Chapter 1",
         "text":" The  people  shall  express  their  will  and  consent  on  who  shall govern them and how\nthey should be governed, through regular, free and fair elections of their representatives or through referenda.",
