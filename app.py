@@ -178,8 +178,10 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-app.secret_key = "secret_key"
-app.config["MONGO_URI"] = "mongodb+srv://serverCredentials:DYJsO4fsFUzpwpKi@linkbus.dp8pg.gcp.mongodb.net/LinkBus?authSource=admin&replicaSet=atlas-e671n0-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true"
+
+app.secret_key = 'secret_key'
+app.config['MONGO_URI'] = os.getenv('MONGO_URI')
+
 mongo  = PyMongo(app)
     
 @app.route('/search', methods=['GET'])
