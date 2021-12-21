@@ -27,15 +27,11 @@ enchant_dict = enchant.Dict("en_US")
 # method for reading a pdf file
 def readTextFile(filename, folder_name):
     # storing path of PDF-Documents folder
-    data_path = str(os.getcwd()) + "\\" + folder_name
+    data_path = str(os.getcwd()) + "/" + folder_name
 
-    file = open(data_path + "\\" + filename, mode="rb")
+    file = open(data_path + "/" + filename, mode="rb")
     text = file.read()
     text = text.decode("utf-8")
-    #txt = text.replace("\n", " ")
-        
-    # creating a single string containing full text
-    #full_text = "".join(text)
 
     return text
 
@@ -138,16 +134,13 @@ def getTitle(titles, sent_start):
     for item in titles:
         if item[0] == title_index:
             req_title = item[2]
-           
-            
+                     
     
     return req_title
             
 # Importing resource for indexing
 pdffile = readTextFile('PlainConstitution0.txt', './resources/')
 pdffile = pdffile.lower()
-# test
-print(pdffile)
 
 doc = getSpacyDocument(pdffile, nlp)
 
@@ -169,9 +162,6 @@ for match in re.finditer(pattern, r_doc.text):
    
     if span is not None:
         mwt_ents.append((span.start, span.end, span.text))
-# for ent in mwt_ents:
-#     start , end , name = ent
-
 
 
 app = Flask(__name__)
@@ -192,10 +182,8 @@ def query_resource():
 
     # Extract search query String
     queryString = request.args.get('q')
-    # keywords = 'president'
     similar_keywords = getSimilarWords(queryString, nlp)
     similar_keywords = similar_keywords.split(", ")
-    # print( similar_keywords)
 
     searchResults = []
     positions = []
@@ -204,10 +192,6 @@ def query_resource():
         result = search_for_keyword(word, doc, nlp)
         searchResults += result["matched_text"]
         positions += result["start_positions"]
-
-    # searchResult = search_for_keyword('president, vice, delegate', doc, nlp)
-
-    # print(f'Total results are {len(searchResult)}')
 
     title_list = []
     for item in positions:
@@ -219,9 +203,6 @@ def query_resource():
         finalResults = {
 
         }
-
-
- 
     
     
 
@@ -273,5 +254,4 @@ def not_found(error=None):
 
 if __name__ :
     app.run(host='0.0.0.0', port=PORT, debug=True) ## set debug == false in production 
-
-
+    
