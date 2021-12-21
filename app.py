@@ -182,6 +182,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.secret_key = 'secret_key'
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 
+PORT = os.getenv('PORT')
+
 mongo  = PyMongo(app)
     
 @app.route('/search', methods=['GET'])
@@ -270,6 +272,6 @@ def not_found(error=None):
 
 
 if __name__ :
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=PORT debug=True) ## set debug == false in production 
 
 
