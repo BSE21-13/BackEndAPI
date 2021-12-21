@@ -272,6 +272,6 @@ def not_found(error=None):
 
 
 if __name__ :
-    app.run(host='0.0.0.0', port=PORT debug=True) ## set debug == false in production 
+    app.run(host='0.0.0.0', port=PORT, debug=True) ## set debug == false in production 
 
 
