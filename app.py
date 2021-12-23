@@ -1,6 +1,5 @@
 import re
 import os
-# import PyPDF2
 import enchant
 import spacy
 from flask import Flask, json
@@ -28,15 +27,11 @@ enchant_dict = enchant.Dict("en_US")
 # method for reading a pdf file
 def readTextFile(filename, folder_name):
     # storing path of PDF-Documents folder
-    data_path = str(os.getcwd()) + "\\" + folder_name
+    data_path = str(os.getcwd()) + "/" + folder_name
 
-    file = open(data_path + "\\" + filename, mode="rb")
+    file = open(data_path + "/" + filename, mode="rb")
     text = file.read()
-    text = text.decode("ansi")
-    #txt = text.replace("\n", " ")
-        
-    # creating a single string containing full text
-    #full_text = "".join(text)
+    text = text.decode("utf-8")
 
     return text
 
@@ -139,15 +134,13 @@ def getTitle(titles, sent_start):
     for item in titles:
         if item[0] == title_index:
             req_title = item[2]
-           
-            
+                     
     
     return req_title
             
 # Importing resource for indexing
-pdffile = readTextFile('PlainConstitution.txt', './resources/')
+pdffile = readTextFile('PlainConstitution0.txt', './resources/')
 pdffile = pdffile.lower()
-# print(pdffile)
 
 doc = getSpacyDocument(pdffile, nlp)
 
@@ -169,53 +162,56 @@ for match in re.finditer(pattern, r_doc.text):
    
     if span is not None:
         mwt_ents.append((span.start, span.end, span.text))
-print(mwt_ents)
-# for ent in mwt_ents:
-#     start , end , name = ent
 
-keywords = 'president'
-similar_keywords = getSimilarWords(keywords, nlp)
-similar_keywords = similar_keywords.split(", ")
-print( similar_keywords)
-
-results = []
-positions = []
-
-# for word in similar_keywords:
-#     print(word)
-#     result = search_for_keyword(word, doc, nlp)
-#     results += result["matched_text"]
-#     positions += result["start_positions"]
-
-result = search_for_keyword('president, vice, delegate', doc, nlp)
-
-print(f'Total results are {len(result)}')
-
-title_list = []
-for item in positions:
-    title_list.append(getTitle(mwt_ents,item))
-
-for item in result:
-    print('*****')
-    print(item)
-    print('***** \n')
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+
 app.secret_key = 'secret_key'
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
+
+PORT = os.getenv('PORT')
+
 mongo  = PyMongo(app)
     
 @app.route('/search', methods=['GET'])
 @cross_origin()
 def query_resource():
+
+    # Extract search query String
     queryString = request.args.get('q')
+    similar_keywords = getSimilarWords(queryString, nlp)
+    similar_keywords = similar_keywords.split(", ")
+
+    searchResults = []
+    positions = []
+
+    for word in similar_keywords:
+        result = search_for_keyword(word, doc, nlp)
+        searchResults += result["matched_text"]
+        positions += result["start_positions"]
+
+    title_list = []
+    for item in positions:
+        title_list.append(getTitle(mwt_ents,item))
+
+    finalResults = {}
+
+    for item in range(0, len(searchResults)+1):
+        finalResults = {
+
+        }
+    
+    
+
     results = {
-        "keywords":[title_list, "law", "state", "prosecution", "police", "unfair", "appeal"], 
+        "keywords": similar_keywords, 
         
-    "results" : [{
+    "results" : 
+    [
+        {
         
         "chapter":"Chapter 1",
         "text":" The  people  shall  express  their  will  and  consent  on  who  shall govern them and how\nthey should be governed, through regular, free and fair elections of their representatives or through referenda.",
@@ -257,6 +253,5 @@ def not_found(error=None):
 
 
 if __name__ :
-    app.run(debug=True)
-
-
+    app.run(host='0.0.0.0', port=PORT, debug=True) ## set debug == false in production 
+    
