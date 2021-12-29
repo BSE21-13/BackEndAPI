@@ -7,3 +7,5 @@ Werkzeug==2.0.2
 dnspython==2.1.0
 spacy==3.2.1
 pyenchant==3.2.2
+pickle4==0.0.1
+
