@@ -68,13 +68,13 @@ def getSimilarWords(keyword, nlp):
             if tokens.is_lower:
                 if tokens.is_alpha:
                     similarity_list.append((tokens, cosineSimilarity(keyword_vector, tokens.vector)))
-
+    # print(similarity_list)
     similarity_list = sorted(similarity_list, key=lambda item: -item[1])
     similarity_list = similarity_list[:30]
 
     top_similar_words = [item[0].text for item in similarity_list]
 
-    top_similar_words = top_similar_words[:3]
+    top_similar_words = top_similar_words[:10]
     top_similar_words.append(keyword)
 
     for token in nlp(keyword):
@@ -88,7 +88,7 @@ def getSimilarWords(keyword, nlp):
 
     top_similar_words = [words for words in top_similar_words if enchant_dict.check(words) == True]
 
-    return ", ".join(top_similar_words)
+    return " ".join(top_similar_words)  
 
 
 # method for searching keyword from the text
@@ -98,16 +98,23 @@ def search_for_keyword(keyword, doc_obj, nlp):
     phrase_matcher.add("Text Extractor", None, *phrase_list)
 
     matched_items = phrase_matcher(doc_obj)
-
+    
     matched_text = []
     matched_start_position = []
+    matched_spans = []
+    matched_sent_spans = []
     for match_id, start, end in matched_items:
         text = nlp.vocab.strings[match_id]
         span = doc_obj[start: end]
+        sent_ = doc_obj[span.sent.start: span.sent.end]
+        matched_spans.append(span)
         matched_text.append(span.sent.text)
         matched_start_position.append(start)
         
-    return {"matched_text" : matched_text, "start_positions": matched_start_position}
+        matched_sent_spans.append(sent_)
+        
+    # print(matched_sent_spans)    
+    return {"matched_text" : matched_text, "start_positions": matched_start_position, "doc_text_span":matched_sent_spans}
 
 
 def getTitle(titles, sent_start):
@@ -125,9 +132,6 @@ def getTitle(titles, sent_start):
     for item in titles:
         if item[0] == title_index:
             req_title = item[2]
-           
-            
-    
     return req_title
 
 def normalizeText(text):
@@ -151,4 +155,53 @@ def normalizeText(text):
     
     string = " ".join(filtered_sentence)
    
-    return string
+    return string  
+
+def remove_duplicates(a, b,c):
+    """
+    This function removes duplicate values from a list. The lists are passed as positional arguments. It returns a dictionary of unduplicated lists
+    """
+    i = 0
+    while i < len(a):
+        j = i + 1
+        while j < len(a):
+            if a[i] == a[j]:
+                del a[j]
+                del b[j]
+                del c[j]
+                
+            else:
+                j += 1
+        i += 1
+    
+    return {
+        "a": a,
+        "b" : b,
+        "c" : c,
+    }
+
+def sortRankedResults(control_list, list_a, list_b):
+    """
+    This function sort  values from a list. The lists are passed as positional arguments. It returns a dictionary of sorted lists
+    """
+    # Swap the elements to arrange in order  Bubble sort algorithm
+    for iter_num in range(len(control_list)-1,0,-1):
+        for index in range(iter_num):
+            if control_list[index] < control_list[index+1]:
+                temp0 = control_list[index]
+                temp1 = list_a[index]
+                temp2 = list_b[index]
+
+                control_list[index] = control_list[index+1]
+                list_a[index] = list_a[index+1]
+                list_b[index] = list_b[index+1]
+
+                control_list[index+1] = temp0
+                list_a[index+1] = temp1
+                list_b[index+1] = temp2
+    return {
+        "results": list_a,
+        "titles" : list_b,  
+        "control": control_list
+    }
+                
