@@ -41,7 +41,7 @@ pdffile = pdffile.lower()
 # outfile = open(filename,'wb')
 # pickle.dump(doc, outfile)
 # outfile.close()
-# # End of serailization
+# End of serailization
 
 # Deserialization of NLP document
 filename = 'ConstitutionDoc'
@@ -151,6 +151,7 @@ def query_resource():
     title_list = rankedResults["titles"]
 
     print(rankedResults["control"])
+
     preparedResponse = []
 #  Iterating over all search results to order response object
     for i in range(len(searchResults)):
@@ -204,7 +205,7 @@ def send_email():
             to_addrs=to_email,
             msg=f"Subject:CADISE SERVICE INQUIRY\n\n {from_email} says, \n{message}"
         )
-    print(content)
+    # print(content)
     resp = jsonify('Email Submitted')
     resp.status_code = 200
     return resp

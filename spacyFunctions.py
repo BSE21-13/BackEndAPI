@@ -101,16 +101,14 @@ def search_for_keyword(keyword, doc_obj, nlp):
     
     matched_text = []
     matched_start_position = []
-    matched_spans = []
     matched_sent_spans = []
+
     for match_id, start, end in matched_items:
         text = nlp.vocab.strings[match_id]
         span = doc_obj[start: end]
         sent_ = doc_obj[span.sent.start: span.sent.end]
-        matched_spans.append(span)
         matched_text.append(span.sent.text)
         matched_start_position.append(start)
-        
         matched_sent_spans.append(sent_)
         
     # print(matched_sent_spans)    
