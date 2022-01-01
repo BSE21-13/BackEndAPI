@@ -65,9 +65,6 @@ for match in re.finditer(pattern, r_doc.text):
    
     if span is not None:
         mwt_ents.append((span.start, span.end, span.text))
-# for ent in mwt_ents:
-#     start , end , name = ent
-
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -225,6 +222,5 @@ def not_found(error=None):
 
 
 if __name__ :
-    app.run(port=8500, debug=True)
-
-
+    app.run(host='0.0.0.0', port=PORT, debug=False) ## set debug == false in production 
+    
