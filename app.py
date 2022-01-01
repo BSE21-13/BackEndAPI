@@ -220,7 +220,7 @@ def not_found(error=None):
     resp.status_code = 404
     return resp
 
-
+PORT = os.getenv('PORT')
 if __name__ :
     app.run(host='0.0.0.0', port=PORT, debug=False) ## set debug == false in production 
     
