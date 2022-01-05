@@ -1,4 +1,3 @@
-
 version: 2.1
 
 orbs:
@@ -9,11 +8,9 @@ jobs:
     executor: newman/postman-newman-docker
     steps:
       - checkout
-
       - newman/newman-run:
           collection: https://api.getpostman.com/collections/12001378-993a8c2b-48d4-4945-bd0e-bd72b7f7941a?apikey=$POSTMAN_API_KEY
           environment: https://api.getpostman.com/environments/12001378-55e02327-945e-4948-b6db-b3e82b83ecda?apikey=$POSTMAN_API_KEY
-
 
 workflows:
   automated-testing-workflow:
