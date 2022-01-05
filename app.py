@@ -26,22 +26,6 @@ nlp = spacy.load('en_core_web_md')
 # Importing resource for indexing
 pdffile = readTextFile('PlainConstitution0.txt', './resources/')
 pdffile = pdffile.lower()
-# test
-# print(pdffile)
-
-
-# adding setCustomBoundaries to the pipeline
-# nlp.add_pipe('en_sentence', before='parser')
-
-# Generate spacy object
-# doc = getSpacyDocument(pdffile, nlp)
-
-# # Serialization of NLP document
-# filename = 'ConstitutionDoc'
-# outfile = open(filename,'wb')
-# pickle.dump(doc, outfile)
-# outfile.close()
-# End of serailization
 
 # Deserialization of NLP document
 filename = 'ConstitutionDoc'
@@ -230,6 +214,7 @@ def not_found(error=None):
     return resp
 
 PORT = os.getenv('PORT')
+DEBUG = os.getenv('DEBUG')  ## set false in production, and true in development
 if __name__ :
-    app.run( port=PORT, debug=True) ## set debug == false in production 
+    app.run( port=PORT, debug=DEBUG)
     

@@ -10,16 +10,14 @@ from spacy.lang.en import English
 from spacy.lang.en.stop_words import STOP_WORDS
 # method for reading a pdf file
 def readTextFile(filename, folder_name):
-    # storing path of PDF-Documents folder
-    data_path = str(os.getcwd()) + "\\" + folder_name
+    PATH_FORMAT = os.getenv('PATH_FORMAT') 
 
-    file = open(data_path + "\\" + filename, mode="rb")
+    # storing path of PDF-Documents folder
+    data_path = str(os.getcwd()) + PATH_FORMAT + folder_name
+
+    file = open(data_path + PATH_FORMAT + filename, mode="rb")
     text = file.read()
     text = text.decode("utf-8")
-    #txt = text.replace("\n", " ")
-        
-    # creating a single string containing full text
-    #full_text = "".join(text)
 
     return text
 
