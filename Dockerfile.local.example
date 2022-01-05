@@ -7,7 +7,7 @@ ENV PORT=PORT_NUMBER_HERE_WITHOUT_QUOTES
 ENV SYSTEM_EMAIL="System Email"
 ENV SYSTEM_EMAIL_PASSWORD="System mail password"
 ENV DEBUG="true for development, false for production"
-ENV PATH_FORMAT="/ for linux, and \\ for windows"
+ENV PATH_FORMAT="/ for linux and macOS, and \\ for windows"
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt

@@ -18,10 +18,6 @@ def readTextFile(filename, folder_name):
     file = open(data_path + PATH_FORMAT + filename, mode="rb")
     text = file.read()
     text = text.decode("utf-8")
-    #txt = text.replace("\n", " ")
-        
-    # creating a single string containing full text
-    #full_text = "".join(text)
 
     return text
 
