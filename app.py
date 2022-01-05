@@ -214,7 +214,6 @@ def not_found(error=None):
     return resp
 
 PORT = os.getenv('PORT')
-DEBUG = os.getenv('DEBUG')  ## set false in production, and true in development
 if __name__ :
-    app.run( port=PORT, debug=DEBUG)
+    app.run( port=PORT, debug=False)
     
