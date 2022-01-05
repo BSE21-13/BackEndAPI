@@ -74,6 +74,7 @@ app.secret_key = "secret_key"
 app.config["MONGO_URI"] = os.getenv('MONGO_URI')
 mongo  = PyMongo(app)
 
+
 @app.route('/', methods=['GET'])
 @cross_origin()
 def index():
@@ -97,6 +98,8 @@ def query_resource():
 
     # Normalize query string
     normalText = normalizeText(queryString)
+
+    similar_keywords = None
 
     # Get similar words base on query string
     similar_keywords = getSimilarWords(normalText, nlp)
@@ -141,21 +144,22 @@ def query_resource():
     for item in positions:
         title_list.append(getTitle(mwt_ents,item))
 
-    print(f"{len(similarityScores)} and {len(searchResults)} and {len(title_list)}")
+    # print(f"{len(similarityScores)} and {len(searchResults)} and {len(title_list)}")
 
     rankedResults = sortRankedResults(similarityScores,searchResults,title_list )
     searchResults = rankedResults["results"]
     title_list = rankedResults["titles"]
 
-    print(rankedResults["control"])
+    # print(rankedResults["control"])
 
     preparedResponse = []
 #  Iterating over all search results to order response object
     for i in range(len(searchResults)):
         title =  title_list[i]
+        resultSent = searchResults[i]
         result = {
             "chapter": title[1:-1].capitalize(),
-            "text": searchResults[i]
+            "text": resultSent[:-1].capitalize()
         }
 
         preparedResponse.append(result)
@@ -171,7 +175,6 @@ def query_resource():
 
     # Convert resp to JSON object
     resp = jsonify(results)
-
     resp.status_code = 200
     return resp
 
@@ -194,18 +197,24 @@ def send_email():
     my_email = os.getenv('SYSTEM_EMAIL')
     my_password = os.getenv('SYSTEM_EMAIL_PASSWORD')
 
-    with smtplib.SMTP("smtp.mail.yahoo.com") as connection:
-        connection.starttls()
-        connection.login(user=my_email, password=my_password)
-        connection.sendmail(
-            from_addr=my_email,
-            to_addrs=to_email,
-            msg=f"Subject:CADISE SERVICE INQUIRY\n\n {from_email} says, \n{message}"
-        )
-    # print(content)
-    resp = jsonify('Email Submitted')
-    resp.status_code = 200
-    return resp
+    # print(f"{to_email} {from_email}")
+    if len(from_email) > 0 and len(to_email)> 0 and len(message) > 0:
+        with smtplib.SMTP("smtp.mail.yahoo.com") as connection:
+            connection.starttls()
+            connection.login(user=my_email, password=my_password)
+            connection.sendmail(
+                from_addr=my_email,
+                to_addrs=to_email,
+                msg=f"Subject:CADISE SERVICE INQUIRY\n\n {from_email} says, \n{message}"
+            )
+        # print(content)
+        resp = jsonify('Email Submitted')
+        resp.status_code = 200
+        return resp
+    else:
+        resp = jsonify('Message body incomplete')
+        resp.status_code = 200
+        return resp
 
 
 @app.errorhandler(404)
@@ -222,5 +231,5 @@ def not_found(error=None):
 
 PORT = os.getenv('PORT')
 if __name__ :
-    app.run(host='0.0.0.0', port=PORT, debug=False) ## set debug == false in production 
+    app.run( port=PORT, debug=True) ## set debug == false in production 
     
