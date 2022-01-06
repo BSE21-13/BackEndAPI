@@ -27,15 +27,11 @@ Getting Started
 
         $ python -m spacy download en_core_web_md
 
-4. Install the Application Code into your virtual environment:
+4. Start the Flask development server:
 
-        $ python setup.py install
+        $ python app.py 
 
-5. Start the Flask development server:
-
-        $ python runner.py --port 8000
-
-6. Open http://127.0.0.1:8000/ in a web browser to view the output of your
+5. Open http://127.0.0.1:8500/ in a web browser to view the output of your
    service.
 
 Project Tests?

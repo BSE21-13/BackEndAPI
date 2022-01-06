@@ -4,9 +4,11 @@ WORKDIR /app
 
 ENV MONGO_URI="Enter MONGO_URI here in quotes"
 ENV PORT=PORT_NUMBER_HERE_WITHOUT_QUOTES
+ENV SYSTEM_EMAIL="System Email"
+ENV SYSTEM_EMAIL_PASSWORD="System mail password"
+ENV PATH_FORMAT="/ for linux and macOS, and \\ for windows"
 
 COPY requirements.txt requirements.txt
-# installing dependencies for project
 RUN pip3 install -r requirements.txt
 
 COPY . .

@@ -1,7 +1,12 @@
+.git
 .env
 .env.example
+env_example
 LICENSE
 README.md
 .gitignore
+Dockerfile
 Dockerfile.local
 Dockerfile.local.example
+.circleci/
+tests/
