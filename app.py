@@ -215,5 +215,5 @@ def not_found(error=None):
 
 PORT = os.getenv('PORT')
 if __name__ :
-    app.run( port=PORT, debug=False)
+    app.run(host='0.0.0.0', port=PORT, debug=False)
     
