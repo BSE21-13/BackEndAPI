@@ -137,7 +137,7 @@ def query_resource():
     # print(rankedResults["control"])
 
     preparedResponse = []
-#  Iterating over all search results to order response object
+    #  Iterating over all search results to order response object
     for i in range(len(searchResults)):
         title =  title_list[i]
         resultSent = searchResults[i]
@@ -215,5 +215,5 @@ def not_found(error=None):
 
 PORT = os.getenv('PORT')
 if __name__ :
-    app.run( port=PORT, debug=False)
+    app.run(host='0.0.0.0', port=PORT, debug=False)
     
