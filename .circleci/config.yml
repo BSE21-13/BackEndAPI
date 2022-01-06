@@ -10,7 +10,7 @@ jobs:
       - checkout
       - newman/newman-run:
           collection: https://api.getpostman.com/collections/12001378-793356b0-be88-447c-a218-abc967383305?apikey=$POSTMAN_API_KEY
-          environment: https://api.getpostman.com/environments/12001378-525748c1-dbd4-46f4-901b-e468ade3e1b6?apikey=$POSTMAN_API_KEY
+          environment: https://api.getpostman.com/environments/12001378-55e02327-945e-4948-b6db-b3e82b83ecda?apikey=$POSTMAN_API_KEY
 
 workflows:
   automated-testing-workflow:
