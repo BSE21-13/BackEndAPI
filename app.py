@@ -137,7 +137,7 @@ def query_resource():
     # print(rankedResults["control"])
 
     preparedResponse = []
-#  Iterating over all search results to order response object
+    #  Iterating over all search results to order response object
     for i in range(len(searchResults)):
         title =  title_list[i]
         resultSent = searchResults[i]
