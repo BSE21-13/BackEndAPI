@@ -13,6 +13,6 @@ jobs:
           environment: https://api.getpostman.com/environments/12001378-55e02327-945e-4948-b6db-b3e82b83ecda?apikey=$POSTMAN_API_KEY
 
 workflows:
-  conduit-automated-testing:
+  cadise-automated-testing:
     jobs:
       - newman-collection-run
