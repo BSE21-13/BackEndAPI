@@ -5,7 +5,7 @@ orbs:
 
 jobs:
   newman-collection-run:
-    executor: newman/postman-newman-docker
+    executor: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - newman/newman-run:
