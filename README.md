@@ -27,11 +27,21 @@ Getting Started
 
         $ python -m spacy download en_core_web_md
 
-4. Start the Flask development server:
+        $ python -m nltk.downloader wordnet
 
-        $ python app.py 
+        $ python -m nltk.downloader omw
 
-5. Open http://127.0.0.1:8500/ in a web browser to view the output of your
+        $ pip install https://github.com/MartinoMensio/spacy-sentence-bert/releases/download/v0.1.2/en_stsb_roberta_large-0.1.2.tar.gz#en_stsb_roberta_large-0.1.2
+
+4. Install the Application Code into your virtual environment:
+
+        $ python setup.py install
+
+5. Start the Flask development server:
+
+        $ python runner.py --port 8000
+
+6. Open http://127.0.0.1:8000/ in a web browser to view the output of your
    service.
 
 Project Tests?

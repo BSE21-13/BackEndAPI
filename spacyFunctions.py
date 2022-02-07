@@ -56,38 +56,50 @@ def cosineSimilarity(vect1, vect2):
 def getSimilarWords(keyword, nlp):
     # create dictionary for the language
 # in use(en_US here)
-    enchant_dict = enchant.Dict("en_US")
+    print(keyword)
+    enchant_dict_US = enchant.Dict("en_US")
+    enchant_dict_UK = enchant.Dict("en_UK")
     similarity_list = []
 
     keyword_vector = createKeywordsVectors(keyword, nlp)
-
-    for tokens in nlp.vocab:
-        if tokens.has_vector:
-            if tokens.is_lower:
-                if tokens.is_alpha:
+    if keyword != '':
+        if enchant_dict_US.check(keyword) == True and enchant_dict_UK.check(keyword) :
+            for tokens in nlp.vocab:
+                if tokens.has_vector and tokens.is_lower and tokens.is_alpha:
                     similarity_list.append((tokens, cosineSimilarity(keyword_vector, tokens.vector)))
-    # print(similarity_list)
+
     similarity_list = sorted(similarity_list, key=lambda item: -item[1])
-    similarity_list = similarity_list[:30]
-
-    top_similar_words = [item[0].text for item in similarity_list]
-
-    top_similar_words = top_similar_words[:10]
+    # similarity_list = similarity_list[:30]
+    
+    top_similar_words = [item[0].text for item in similarity_list if item[0].text != '']
+    
+    top_similar_words = top_similar_words[:5]
     top_similar_words.append(keyword)
 
     for token in nlp(keyword):
         top_similar_words.insert(0, token.lemma_)
+        print(token.lemma_)
 
     for words in top_similar_words:
         if words.endswith("s"):
             top_similar_words.append(words[0:len(words) - 1])
 
-    top_similar_words = list(set(top_similar_words))
+    # top_similar_words = list(set(top_similar_words))
 
-    top_similar_words = [words for words in top_similar_words if enchant_dict.check(words) == True]
+    
+    final_similar_words = []
 
-    return " ".join(top_similar_words)  
+    for word in  top_similar_words:
+        if word != '' and len(word) > 3:
+            if enchant_dict_US.check(word) == True and enchant_dict_UK.check(word) : 
+                # print(f'{word} >> {enchant_dict_US.check(word)}')
+                final_similar_words.append(word)
 
+
+    # top_similar_words = [words for words in top_similar_words if enchant_dict.check(words) == True] ##
+   
+    return " ".join(final_similar_words)  
+ 
 
 # method for searching keyword from the text
 def search_for_keyword(keyword, doc_obj, nlp):
@@ -104,7 +116,7 @@ def search_for_keyword(keyword, doc_obj, nlp):
     for match_id, start, end in matched_items:
         text = nlp.vocab.strings[match_id]
         span = doc_obj[start: end]
-        sent_ = doc_obj[span.sent.start: span.sent.end]
+        sent_ = doc_obj[span.sent.start : span.sent.end]
         matched_text.append(span.sent.text)
         matched_start_position.append(start)
         matched_sent_spans.append(sent_)
@@ -132,7 +144,7 @@ def getTitle(titles, sent_start):
 
 def normalizeText(text):
     # Load English tokenizer, tagger, parser, NER and word vectors
-    nlp = English()
+    nlp = spacy.blank("en")
     #  "nlp" Object is used to create documents with linguistic annotations.
     text1= text.lower()
     my_doc = nlp(text1)
