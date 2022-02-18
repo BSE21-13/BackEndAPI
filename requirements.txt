@@ -8,3 +8,4 @@ dnspython==2.1.0
 pyenchant==3.2.2
 pickle4==0.0.1
 spacy_wordnet
+spaCy==3.2.1
