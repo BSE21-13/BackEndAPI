@@ -19,7 +19,7 @@ from datetime import datetime
 from pickle4 import pickle
 from spacy_wordnet.wordnet_annotator import WordnetAnnotator 
 import time
-import spacy_sentence_bert
+# import spacy_sentence_bert
 import searchTaxonomy
 
 load_dotenv() 

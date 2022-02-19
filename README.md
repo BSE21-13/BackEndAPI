@@ -31,7 +31,6 @@ Getting Started
 
         $ python -m nltk.downloader omw
 
-        $ pip install https://github.com/MartinoMensio/spacy-sentence-bert/releases/download/v0.1.2/en_stsb_roberta_large-0.1.2.tar.gz#en_stsb_roberta_large-0.1.2
 
 4. Install the Application Code into your virtual environment:
 
